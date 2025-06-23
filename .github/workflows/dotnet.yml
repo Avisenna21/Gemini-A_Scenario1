@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: Build and Analyze
+    name: Build and Analyze with SonarCloud
     runs-on: windows-latest
 
     steps:
@@ -53,14 +53,13 @@ jobs:
             /k:"Avisenna21_Gemini-A_Scenario1" `
             /o:"avisenna21" `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" `
-            /d:sonar.host.url="https://sonarcloud.io"
+            /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.exclusions="**/bin/**,**/obj/**,**/Migrations/**,**/*.Designer.cs,**/*.g.cs"
 
-          
           dotnet restore "Gemini Scenario 1/Gemini Scenario 1.sln"
           dotnet build "Gemini Scenario 1/Gemini Scenario 1.sln" --no-incremental
           dotnet test "Gemini Scenario 1/Gemini Scenario 1.sln" --no-build --verbosity normal
-          
+
           .\.sonar\scanner\dotnet-sonarscanner end `
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
